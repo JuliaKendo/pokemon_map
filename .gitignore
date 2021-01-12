@@ -131,3 +131,4 @@ Thumbs.db
 .DS_Store
 
 pokemons.json
+migrations/
