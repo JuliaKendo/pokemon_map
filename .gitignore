@@ -129,7 +129,6 @@ dmypy.json
 __pycache__
 Thumbs.db
 .DS_Store
+*.png
 
 pokemons.json
-migrations/
-.png
