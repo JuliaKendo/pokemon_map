@@ -1,6 +1,6 @@
 import folium
 
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, Http404
 from django.shortcuts import render
 
 from .models import Pokemon
@@ -55,7 +55,10 @@ def show_all_pokemons(request):
 
 
 def show_pokemon(request, pokemon_id):
-    pokemon = Pokemon.objects.get(id=pokemon_id)
+    try:
+        pokemon = Pokemon.objects.get(id=pokemon_id)
+    except Pokemon.DoesNotExist:
+        raise Http404('<h1>Отсутствует описание для выбранного покемона</h1>')
     if not pokemon:
         return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
     pokemon_image = request.build_absolute_uri(
