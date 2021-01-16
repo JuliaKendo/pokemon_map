@@ -107,7 +107,7 @@ def add_previous_pokemon(request, pokemon_details, pokemon_parent):
 
 
 def add_next_pokemon(request, pokemon_details, pokemon_inheritor):
-    pokemons = pokemon_inheritor.pokemon_set.all()
+    pokemons = pokemon_inheritor.previous_pokemon.all()
     if not pokemons:
         return
     pokemon_image = request.build_absolute_uri(
