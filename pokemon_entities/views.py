@@ -47,7 +47,7 @@ def show_all_pokemons(request):
             )
 
     return render(
-        request, "mainpage.html",
+        request, 'mainpage.html',
         context={
             'map': folium_map._repr_html_(),
             'pokemons': pokemons_on_page,
@@ -83,7 +83,7 @@ def show_pokemon(request, pokemon_id):
         )
 
     return render(
-        request, "pokemon.html",
+        request, 'pokemon.html',
         context={
             'map': folium_map._repr_html_(),
             'pokemon': pokemon_details
