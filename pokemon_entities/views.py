@@ -36,7 +36,7 @@ def show_all_pokemons(request):
             'img_url': pokemon_image,
             'title_ru': pokemon.title,
         })
-        pokemon_entities = pokemon.current_pokemon.all()
+        pokemon_entities = pokemon.entities.all()
         for pokemon_entity in pokemon_entities:
             add_pokemon(
                 folium_map,
@@ -58,9 +58,7 @@ def show_pokemon(request, pokemon_id):
     try:
         pokemon = Pokemon.objects.get(id=pokemon_id)
     except Pokemon.DoesNotExist:
-        raise Http404('<h1>Отсутствует описание для выбранного покемона</h1>')
-    if not pokemon:
-        return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
+        raise Http404('<h1>Такой покемон не найден</h1>')
     pokemon_image = request.build_absolute_uri(
         pokemon.image.url
     ) if pokemon.image else DEFAULT_IMAGE_URL
@@ -75,7 +73,7 @@ def show_pokemon(request, pokemon_id):
     add_previous_pokemon(request, pokemon_details, pokemon)
     add_next_pokemon(request, pokemon_details, pokemon)
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
-    pokemon_entities = pokemon.current_pokemon.all()
+    pokemon_entities = pokemon.entities.all()
     for pokemon_entity in pokemon_entities:
         add_pokemon(
             folium_map,
@@ -108,7 +106,7 @@ def add_previous_pokemon(request, pokemon_details, pokemon_parent):
 
 
 def add_next_pokemon(request, pokemon_details, pokemon_inheritor):
-    pokemons = pokemon_inheritor.previous_pokemon.all()
+    pokemons = pokemon_inheritor.previous_pokemons.all()
     if not pokemons:
         return
     pokemon_image = request.build_absolute_uri(
