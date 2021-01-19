@@ -1,6 +1,13 @@
 from django.db import models
 
 
+class PokemonElementType(models.Model):
+    title = models.CharField(max_length=200, verbose_name='Стихии')
+
+    def __str__(self):
+        return self.title
+
+
 class Pokemon(models.Model):
     title = models.CharField(max_length=200, verbose_name='Наименование')
     title_en = models.CharField(
@@ -14,6 +21,10 @@ class Pokemon(models.Model):
     image = models.ImageField(
         upload_to='', null=True,
         blank=True, verbose_name='Изображение'
+    )
+    element_type = models.ManyToManyField(
+        PokemonElementType, verbose_name='Типы стихий',
+        related_name='pokemons_by_type'
     )
     description = models.TextField(blank=True, verbose_name='Описание')
     previous_evolution = models.ForeignKey(

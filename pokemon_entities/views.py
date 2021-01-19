@@ -20,6 +20,7 @@ def add_pokemon(folium_map, lat, lon, image_url=DEFAULT_IMAGE_URL):
     folium.Marker(
         [lat, lon],
         icon=icon,
+        popup="inline implicit popup",
     ).add_to(folium_map)
 
 
