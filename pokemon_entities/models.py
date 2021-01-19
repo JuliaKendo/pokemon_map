@@ -3,6 +3,10 @@ from django.db import models
 
 class PokemonElementType(models.Model):
     title = models.CharField(max_length=200, verbose_name='Стихии')
+    image = models.ImageField(
+        upload_to='', null=True,
+        blank=True, verbose_name='Изображение'
+    )
 
     def __str__(self):
         return self.title

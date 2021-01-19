@@ -73,6 +73,7 @@ def show_pokemon(request, pokemon_id):
         'description': pokemon.description,
         'title_en': pokemon.title_en,
         'title_jp': pokemon.title_jp,
+        'element_type': []
     }
     add_previous_pokemon(request, pokemon_details, pokemon)
     add_next_pokemon(request, pokemon_details, pokemon)
@@ -85,6 +86,16 @@ def show_pokemon(request, pokemon_id):
             pokemon_entity.lon,
             pokemon_image,
             get_pokemon_info(pokemon, pokemon_entity)
+        )
+
+    pokemon_elements_type = pokemon.element_type.all()
+    for element_type in pokemon_elements_type:
+        pokemon_details['element_type'].append(
+            {
+                'img': element_type.image.url,
+                'title': element_type.title,
+                'strong_against': []
+            }
         )
 
     return render(
