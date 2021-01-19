@@ -1,4 +1,6 @@
+import pdb
 import folium
+import textwrap
 
 from django.http import Http404
 from django.shortcuts import render
@@ -12,7 +14,7 @@ DEFAULT_IMAGE_URL = '''https://vignette.wikia.nocookie.net/pokemon/images/6/
 240?cb=20130525215832&fill=transparent'''
 
 
-def add_pokemon(folium_map, lat, lon, image_url=DEFAULT_IMAGE_URL):
+def add_pokemon(folium_map, lat, lon, image_url=DEFAULT_IMAGE_URL, pokemon_info=''):
     icon = folium.features.CustomIcon(
         image_url,
         icon_size=(50, 50),
@@ -20,7 +22,7 @@ def add_pokemon(folium_map, lat, lon, image_url=DEFAULT_IMAGE_URL):
     folium.Marker(
         [lat, lon],
         icon=icon,
-        popup="inline implicit popup",
+        popup=pokemon_info,
     ).add_to(folium_map)
 
 
@@ -43,7 +45,8 @@ def show_all_pokemons(request):
                 folium_map,
                 pokemon_entity.lat,
                 pokemon_entity.lon,
-                pokemon_image
+                pokemon_image,
+                get_pokemon_info(pokemon, pokemon_entity)
             )
 
     return render(
@@ -80,7 +83,8 @@ def show_pokemon(request, pokemon_id):
             folium_map,
             pokemon_entity.lat,
             pokemon_entity.lon,
-            pokemon_image
+            pokemon_image,
+            get_pokemon_info(pokemon, pokemon_entity)
         )
 
     return render(
@@ -118,3 +122,14 @@ def add_next_pokemon(request, pokemon_details, pokemon_inheritor):
         'img_url': pokemon_image,
         'title_ru': pokemons[0].title,
     }
+
+
+def get_pokemon_info(pokemon, pokemon_entity):
+    return textwrap.dedent(f'''
+        {pokemon.title}
+        уровень: {pokemon_entity.level}
+        здоровье: {pokemon_entity.health}
+        сила: {pokemon_entity.strength}
+        защита: {pokemon_entity.defence}
+        выносливость: {pokemon_entity.stamina}
+    ''')
