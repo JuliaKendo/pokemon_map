@@ -7,6 +7,12 @@ class PokemonElementType(models.Model):
         upload_to='', null=True,
         blank=True, verbose_name='Изображение'
     )
+    strong_against = models.ManyToManyField(
+        'self', blank=True,
+        symmetrical=False,
+        verbose_name='силен против',
+        related_name='elements_types'
+    )
 
     def __str__(self):
         return self.title

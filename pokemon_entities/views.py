@@ -94,7 +94,9 @@ def show_pokemon(request, pokemon_id):
             {
                 'img': element_type.image.url,
                 'title': element_type.title,
-                'strong_against': []
+                'strong_against': list(
+                    element_type.strong_against.values_list('title', flat=True)
+                )
             }
         )
 
